@@ -1,40 +1,69 @@
 import pygame
+
 from board import Board
 
 pygame.init()
-pygame.font.init()
 
-screen_height, screen_width = 640, 640
-screen = pygame.display.set_mode((screen_height, screen_width))
-pygame.display.set_caption("Tic Tac Toe")
+WINDOW_SIZE = (600, 600)
+screen = pygame.display.set_mode(WINDOW_SIZE)
 
-class Checkers:
-	def __init__(self):
-		self.running = True
-		self.font = pygame.font.SysFont("Courier New", 35)
-		self.FPS = pygame.time.Clock()
+board = Board(WINDOW_SIZE[0], WINDOW_SIZE[1])
 
-	def draw_piece(self):
-		img = pygame.image.load("images/red-pawn.png")
-		imgs = pygame.image.load("images/red-pawn.png")
-		img = pygame.transform.scale(img, (80, 80))
-		imgs = pygame.transform.scale(imgs, (80, 80))
-		screen.blit(img, (80, 480, 80, 80))
-		screen.blit(imgs, (0, 560, 80, 80))
-
-	def main(self):
-		board = Board(screen_height, screen_width, screen)
-		board.draw_board()
-		self.draw_piece()
-		while self.running:
-			for self.event in pygame.event.get():
-				if self.event.type == pygame.QUIT:
-					self.running = False
-
-			pygame.display.flip()
-			self.FPS.tick(60)
+def draw(display):
+	display.fill('white')
+	board.draw(display)
+	pygame.display.update()
 
 
-if __name__ == "__main__":
-	h = Checkers()
-	h.main()
+if __name__ == '__main__':
+	running = True
+	while running:
+		mx, my = pygame.mouse.get_pos()
+		for event in pygame.event.get():
+			if event.type == pygame.QUIT:
+				running = False
+
+			elif event.type == pygame.MOUSEBUTTONDOWN:
+				if event.button == 1:
+					board.handle_click(mx, my)
+
+		# if board.is_in_checkmate('black'):
+		# 	print('White wins!')
+		# 	running = False
+		# elif board.is_in_checkmate('white'):
+		# 	print('Black wins!')
+		# 	running = False
+
+		draw(screen)
+
+
+# import pygame
+# from board import Board
+
+# pygame.init()
+# pygame.font.init()
+
+# screen_height, screen_width = 640, 640
+# screen = pygame.display.set_mode((screen_height, screen_width))
+# pygame.display.set_caption("Tic Tac Toe")
+
+# class Checkers:
+# 	def __init__(self):
+# 		self.running = True
+# 		self.font = pygame.font.SysFont("Courier New", 35)
+# 		self.FPS = pygame.time.Clock()
+
+# 	def main(self):
+# 		board = Board(screen_height, screen_width)
+# 		while self.running:
+# 			for self.event in pygame.event.get():
+# 				if self.event.type == pygame.QUIT:
+# 					self.running = False
+
+# 			pygame.display.flip()
+# 			self.FPS.tick(60)
+
+
+# if __name__ == "__main__":
+# 	h = Checkers()
+# 	h.main()
