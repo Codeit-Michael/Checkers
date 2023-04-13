@@ -18,15 +18,11 @@ class Pawn(Piece):
 		moves = []
 
 		# move forward
-		if self.color == 'white':
+		if self.color == 'red':
 			moves.append((0, -1))
-			if not self.has_moved:
-				moves.append((0, -2))
 
 		elif self.color == 'black':
 			moves.append((0, 1))
-			if not self.has_moved:
-				moves.append((0, 2))
 
 		for move in moves:
 			new_pos = (self.x, self.y + move[1])
@@ -46,7 +42,7 @@ class Pawn(Piece):
 			else:
 				output.append(tile)
 
-		if self.color == 'white':
+		if self.color == 'red':
 			if self.x + 1 < 8 and self.y - 1 >= 0:
 				tile = board.get_tile_from_pos(
 					(self.x + 1, self.y - 1)
