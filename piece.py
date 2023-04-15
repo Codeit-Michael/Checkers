@@ -25,8 +25,8 @@ class Piece:
 			# Pawn promotion
 			if self.notation == ' ':
 				if self.y == 0 or self.y == 7:
-					from data.classes.pieces.Queen import Queen
-					tile.occupying_piece = Queen(
+					from king import King
+					tile.occupying_piece = King(
 						(self.x, self.y), self.color, board
 					)
 
@@ -35,6 +35,20 @@ class Piece:
 			board.selected_piece = None
 			return False
 
+	# can be removed in future versions
+	def get_moves(self, board):
+		output = []
+		for direction in self.get_possible_moves(board):
+			for tile in direction:
+				if tile.occupying_piece is not None:
+					if tile.occupying_piece.color == self.color:
+						break
+					else:
+						output.append(tile)
+						break
+				else:
+					output.append(tile)
+		return output
 
 	def get_valid_moves(self, board):
 		output = []
@@ -45,5 +59,6 @@ class Piece:
 		return output
 
 	# True for all pieces except pawn
+	# Can be removed in later versions
 	def attacking_tiles(self, board):
 		return self.get_moves(board)

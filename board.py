@@ -23,6 +23,7 @@ class Board:
 		self.tiles = self.generate_tiles()
 		self.setup_board()
 
+
 	def generate_tiles(self):
 		output = []
 		for row in range(8):
@@ -32,13 +33,16 @@ class Board:
 				)
 		return output
 
+
 	def get_tile_from_pos(self, pos):
 		for tile in self.tiles:
 			if (tile.x, tile.y) == (pos[0], pos[1]):
 				return tile
 
+
 	def get_piece_from_pos(self, pos):
 		return self.get_tile_from_pos(pos).occupying_piece
+
 
 	def setup_board(self):
 		# iterating 2d list
@@ -49,6 +53,7 @@ class Board:
 					tile.occupying_piece = Pawn(
 						(x, y), 'red' if piece[0] == 'r' else 'black', self
 					)
+
 
 	def handle_click(self, mx, my):
 		x = mx // self.tile_width
@@ -67,77 +72,21 @@ class Board:
 			if clicked_tile.occupying_piece.color == self.turn:
 				self.selected_piece = clicked_tile.occupying_piece
 
+
 	def draw(self, display):
 		if self.selected_piece is not None:
 			self.get_tile_from_pos(self.selected_piece.pos).highlight = True
 			for tile in self.selected_piece.get_valid_moves(self):
 				tile.highlight = True
-
 		for tile in self.tiles:
 			tile.draw(display)
 
 
-
-
-# ~~~~~~~~~~~~~~~~~~~~~~~
-"""
-	def is_in_check(self, color, board_change=None): # board_change = [(x1, y1), (x2, y2)]
-		output = False
-		king_pos = None
-
-		changing_piece = None
-		old_square = None
-		new_square = None
-		new_square_old_piece = None
-
-		if board_change is not None:
-			for square in self.squares:
-				if square.pos == board_change[0]:
-					changing_piece = square.occupying_piece
-					old_square = square
-					old_square.occupying_piece = None
-			for square in self.squares:
-				if square.pos == board_change[1]:
-					new_square = square
-					new_square_old_piece = new_square.occupying_piece
-					new_square.occupying_piece = changing_piece
-
-		pieces = [
-			i.occupying_piece for i in self.squares if i.occupying_piece is not None
-		]
-
-		if changing_piece is not None:
-			if changing_piece.notation == 'K':
-				king_pos = new_square.pos
-		if king_pos == None:
-			for piece in pieces:
-				if piece.notation == 'K' and piece.color == color:
-						king_pos = piece.pos
-		for piece in pieces:
-			if piece.color != color:
-				for square in piece.attacking_squares(self):
-					if square.pos == king_pos:
-						output = True
-
-		if board_change is not None:
-			old_square.occupying_piece = changing_piece
-			new_square.occupying_piece = new_square_old_piece
-						
-		return output
-
-
-	def is_in_checkmate(self, color):
-		output = False
-
-		for piece in [i.occupying_piece for i in self.squares]:
-			if piece != None:
-				if piece.notation == 'K' and piece.color == color:
-					king = piece
-
-		if king.get_valid_moves(self) == []:
-			if self.is_in_check(color):
-				output = True
-
-		return output
-
-"""
+	def is_valid_pos(self, pos):
+		"""Checks if a given position is a valid tile on a standard checker board."""
+		x, y = pos[0], pos[1]
+		if x < 0 or x > 7 or y < 0 or y > 7:
+			return False
+		if (x + y) % 2 == 0:
+			return False
+		return True
