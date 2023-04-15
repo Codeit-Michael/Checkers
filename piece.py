@@ -36,21 +36,6 @@ class Piece:
 			return False
 
 
-	def get_moves(self, board):
-		output = []
-		for direction in self.get_possible_moves(board):
-			for tile in direction:
-				if tile.occupying_piece is not None:
-					if tile.occupying_piece.color == self.color:
-						break
-					else:
-						output.append(tile)
-						break
-				else:
-					output.append(tile)
-		return output
-
-
 	def get_valid_moves(self, board):
 		output = []
 		for tile in self.get_moves(board):
