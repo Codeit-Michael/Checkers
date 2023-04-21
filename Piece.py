@@ -19,17 +19,88 @@ class Piece:
 	
 	def get_valid_moves(self):
 		valid_moves = []
+		is_jump = False
 		# Logic for getting valid moves for a normal piece
 		if not self.is_king:
+			# move for black
 			if self.color == 'black':
-				# Check for potential moves diagonally down left and right
+				# left move
 				if self.board.get_piece_from_pos((self.x - 1, self.y + 1)) is None:
-					valid_moves.append((self.x - 1, self.y + 1))
-					if self.board.get_piece_from_pos((self.x + 1, self.y + 1)) is None:
-						valid_moves.append((self.x + 1, self.y + 1))
+					valid_moves.append((self.x - 1, self.y + 1), is_jump)
+				
+				# left jump
+				elif self.board.get_piece_from_pos((self.x - 1, self.y + 1)) not None:
+					# is_jump = True
+					# tile_behind = -x, +y >> increase 2
+					# while is_jump:
+					# 	try:
+					# 		if tile_behind == None:
+					# 			valid_moves.append((tile_behind), is_jump)
+					# 			tile_behind = -x, +y >> increase 2
+					# 		else:
+					# 			is_jump = False
+					# 	except:
+					# 		is_jump = False
+					# 		continue
+					pass
+
+				# right move
+				if self.board.get_piece_from_pos((self.x + 1, self.y + 1)) is None:
+					valid_moves.append((self.x + 1, self.y + 1), is_jump)
+
+				# right jump
+				elif self.board.get_piece_from_pos((self.x + 1, self.y + 1)) not None:
+					# is_jump = True
+					# tile_behind = +x, +y >> increase 2
+					# while is_jump:
+					# 	try:
+					# 		if tile_behind == None:
+					# 			valid_moves.append((tile_behind), is_jump)
+					# 			tile_behind = +x, +y >> increase 2
+					# 		else:
+					# 			is_jump = False
+					# 	except:
+					# 		is_jump = False
+					# 		continue
+					pass
+
+			# move for red
 			else:
-				# Check for potential moves diagonally up left and right
+				# left move
 				if self.board.get_piece_from_pos((self.x - 1, self.y - 1)) is None:
-					valid_moves.append((self.x - 1, self.y - 1))
-						if self.board.get_piece_from_pos((self.x + 1, self.y - 1)) is None:
-							valid_moves.append((self.x + 1, self.y - 1))
+					valid_moves.append((self.x - 1, self.y - 1), is_jump)
+				# left jump
+				elif self.board.get_piece_from_pos((self.x - 1, self.y - 1)) not None:
+					# is_jump = True
+					# tile_behind = -x, -y >> increase 2
+					# while is_jump:
+					# 	try:
+					# 		if tile_behind == None:
+					# 			valid_moves.append((tile_behind), is_jump)
+					# 			tile_behind = -x, -y >> increase 2
+					# 		else:
+					# 			is_jump = False
+					# 	except:
+					# 		is_jump = False
+					# 		continue
+					pass
+
+				if self.board.get_piece_from_pos((self.x + 1, self.y - 1)) is None:
+					valid_moves.append((self.x + 1, self.y - 1)is_jump)
+				# right jump
+				elif self.board.get_piece_from_pos((self.x + 1, self.y - 1)) not None:
+					# is_jump = True
+					# tile_behind = +x, -y >> increase 2
+					# while is_jump:
+					# 	try:
+					# 		if tile_behind == None:
+					# 			valid_moves.append((tile_behind), is_jump)
+					# 			tile_behind = +x, -y >> increase 2
+					# 		else:
+					# 			is_jump = False
+					# 	except:
+					# 		is_jump = False
+					# 		continue
+					pass
+
+		return valid_moves
