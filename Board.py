@@ -1,5 +1,6 @@
 import pygame
 from Tile import Tile
+from Pawn import Pawn
 
 class Board:
 	def __init__(self,tile_width, tile_height, board_size):
@@ -9,7 +10,6 @@ class Board:
 		self.selected_piece = None
 
 		self.turn = "black"
-		self.winner = None
 
 		self.config = [
 			['', 'bp', '', 'bp', '', 'bp', '', 'bp'],
@@ -23,7 +23,7 @@ class Board:
 		]
 
 		self. tile_list = self.generate_tiles()
-		# self.setup()
+		self.setup()
 
 	def generate_tiles(self):
 		output = []
@@ -39,40 +39,14 @@ class Board:
 			if (tile.x, tile.y) == (pos[0], pos[1]):
 				return tile
 
-	def handle_click(self, pos):
-		if self.selected_piece is None:
-			piece = self.get_piece_from_pos(pos)
-			if piece is not None and piece.color == self.turn:
-				self.selected_piece = piece
-		else:
-			tile = self.get_tile_from_pos(pos)
-			if tile in self.selected_piece.get_valid_moves():
-				self.move_piece(self.selected_piece, tile)
-			self.selected_piece = None
-
-		def move_piece(self, piece, tile):
-			# Update piece position and occupying tile
-			piece.x, piece.y = tile.x, tile.y
-			piece.pos = (piece.x, piece.y)
-			tile.occupying_piece = piece
-
-			# Clear selected piece and update turn
-			self.selected_piece = None
-			self.turn = 'black' if self.turn == 'red' else 'red'
-
-	def get_piece_from_pos(self, pos):
-		return self.get_tile_from_pos(pos).occupying_piece
-
 	def setup(self):
-		# iterating 2d list
-		for y, row in enumerate(self.config):
-			for x, piece in enumerate(row):
-				if piece != '':
-					square = self.get_square_from_pos(x, y)
-					square.occupying_piece = Piece(x, y, 'red' if piece[0] == 'r' else 'black', self)
-
-	def handle_click(self):
-		pass
+		for y_ind, row in enumerate(self.config):
+			for x_ind, x in enumerate(row):
+				tile = self.get_tile_from_pos((x_ind, y_ind))
+				if x != '':
+					if x[-1] == 'p':
+						color = 'red' if x[0] == 'r' else 'black'
+						tile.occupying_piece = Pawn(x_ind, y_ind, color, self)
 
 	def draw(self, display):
 		if self.selected_piece is not None:
@@ -80,5 +54,5 @@ class Board:
 			for tile in self.selected_piece.get_valid_moves(self):
 				tile.highlight = True
 
-		for square in self.tile_list:
-			square.draw(display)
+		for tile in self.tile_list:
+			tile.draw(display)
