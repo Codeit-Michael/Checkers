@@ -20,12 +20,11 @@ class Checkers:
 		board = Board(tile_width, tile_height, board_size)
 		game = Game(board)
 		while self.running:
-			game.check_piece()
 			for self.event in pygame.event.get():
 				if self.event.type == pygame.QUIT:
 					self.running = False
 
-				if not game.game_over:
+				if not game.is_game_over():
 					if self.event.type == pygame.MOUSEBUTTONDOWN:
 						board.handle_click(self.event.pos)
 				else:

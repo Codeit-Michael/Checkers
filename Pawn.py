@@ -9,8 +9,41 @@ class Pawn(Piece):
 		self.img = pygame.transform.scale(self.img, (board.tile_width, board.tile_height))
 		self.notation = 'p'
 
-	def valid_move(self):
-		pass
+	def possible_moves(self):
+		# (x, y) move for left and right
+		if self.color == "red":
+			possible_moves = ((-1, -1), (+1, -1)) 
+		else:
+			possible_moves = ((-1, +1), (+1, +1))
+		return possible_moves
 
-	def valid_jump(self):
-		pass
+	def valid_moves(self):
+		tile_moves = []
+		moves = self.possible_moves()
+		for move in moves:
+			tile_pos = (self.x + move[0], self.y + move[-1])
+			if tile_pos[0] < 0 or tile_pos[0] > 7 or tile_pos[-1] < 0 or tile_pos[-1] > 7:
+				pass
+			else:
+				tile = self.board.get_tile_from_pos(tile_pos)
+				if tile.occupying_piece == None:
+					tile_moves.append(tile)
+		return tile_moves
+
+	def valid_jumps(self):
+		tile_jumps = []
+		moves = self.possible_moves()
+		for move in moves:
+			tile_pos = (self.x + move[0], self.y + move[-1])
+			if tile_pos[0] < 0 or tile_pos[0] > 7 or tile_pos[-1] < 0 or tile_pos[-1] > 7:
+				pass
+			else:
+				tile = self.board.get_tile_from_pos(tile_pos)
+				if tile.occupying_piece != None:
+					next_tile = (tile_pos[0] + move[0], tile_pos[-1] + move[-1])
+					if next_tile[0] < 0 or next_tile[0] > 7 or next_tile[-1] < 0 or next_tile[-1] > 7:
+						pass
+					else:
+						if self.board.get_tile_from_pos(nex_tile) == None:
+							tile_jumps.append(nex_tile)
+		return tile_jumps
