@@ -58,7 +58,7 @@ class Board:
 			if clicked_tile.occupying_piece is not None:
 				if clicked_tile.occupying_piece.color == self.turn:
 					self.selected_piece = clicked_tile.occupying_piece
-		elif self.selected_piece.move(clicked_tile):
+		elif self.selected_piece._move(clicked_tile):
 			self.turn = 'red' if self.turn == 'black' else 'black'
 		elif clicked_tile.occupying_piece is not None:
 			if clicked_tile.occupying_piece.color == self.turn:
