@@ -10,6 +10,7 @@ class Board:
 		self.selected_piece = None
 
 		self.turn = "black"
+		self.is_jump = False
 
 		self.config = [
 			['', 'bp', '', 'bp', '', 'bp', '', 'bp'],
@@ -50,15 +51,16 @@ class Board:
 
 	def handle_click(self, pos):
 		x, y = pos[0], pos[-1]
-		x = x // self.tile_width
-		y = y // self.tile_height
+		if x >= self.board_size or y >= self.board_size:
+			x = x // self.tile_width
+			y = y // self.tile_height
 		clicked_tile = self.get_tile_from_pos((x, y))
 
 		if self.selected_piece is None:
 			if clicked_tile.occupying_piece is not None:
 				if clicked_tile.occupying_piece.color == self.turn:
 					self.selected_piece = clicked_tile.occupying_piece
-		elif self.selected_piece._move(clicked_tile):
+		elif self.selected_piece._move(clicked_tile) and not self.is_jump:
 			self.turn = 'red' if self.turn == 'black' else 'black'
 		elif clicked_tile.occupying_piece is not None:
 			if clicked_tile.occupying_piece.color == self.turn:

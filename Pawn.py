@@ -39,11 +39,12 @@ class Pawn(Piece):
 				pass
 			else:
 				tile = self.board.get_tile_from_pos(tile_pos)
-				if tile.occupying_piece != None:
-					next_tile = (tile_pos[0] + move[0], tile_pos[-1] + move[-1])
-					if next_tile[0] < 0 or next_tile[0] > 7 or next_tile[-1] < 0 or next_tile[-1] > 7:
-						pass
-					else:
-						if self.board.get_tile_from_pos(nex_tile) == None:
-							tile_jumps.append(nex_tile)
+				if self.board.turn == self.color:
+					if tile.occupying_piece != None and tile.occupying_piece.color != self.color:
+						next_tile = (tile_pos[0] + move[0], tile_pos[-1] + move[-1])
+						if next_tile[0] < 0 or next_tile[0] > 7 or next_tile[-1] < 0 or next_tile[-1] > 7:
+							pass
+						else:
+							if self.board.get_tile_from_pos(next_tile).occupying_piece == None:
+								tile_jumps.append(next_tile)
 		return tile_jumps
