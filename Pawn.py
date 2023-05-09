@@ -47,6 +47,5 @@ class Pawn(Piece):
 							pass
 						else:
 							if next_tile.occupying_piece == None:
-								# print(next_tile.pos)
 								tile_jumps.append(next_tile)
 		return tile_jumps

@@ -33,10 +33,12 @@ class Game:
 				if len(piece.valid_jumps()) != 0 and board.turn == piece.color:
 					board.is_jump = True
 					break
+				else:
+					board.is_jump = False
 		if board.is_jump:
 			board.selected_piece = piece
 			board.handle_click(piece.pos)
-		# print(piece.valid_jumps())
+		return board.is_jump
 
 	def force_jump(self):
 		pass

@@ -50,7 +50,6 @@ class Board:
 						tile.occupying_piece = Pawn(x_ind, y_ind, color, self)
 
 	def handle_click(self, pos):
-		# next prob: shifting color after jump
 		x, y = pos[0], pos[-1]
 		if x >= self.board_size or y >= self.board_size:
 			x = x // self.tile_width
@@ -62,10 +61,12 @@ class Board:
 				if clicked_tile.occupying_piece.color == self.turn:
 					self.selected_piece = clicked_tile.occupying_piece
 		elif self.selected_piece._move(clicked_tile):
-			self.turn = 'red' if self.turn == 'black' else 'black'
+			if not self.is_jump:
+				self.turn = 'red' if self.turn == 'black' else 'black'
+			else:
+				if len(clicked_tile.occupying_piece.valid_jumps()) == 0:
+					self.turn = 'red' if self.turn == 'black' else 'black'
 		elif clicked_tile.occupying_piece is not None:
-			# blocks continuing to move
-			# if not self.is_jump:
 			if clicked_tile.occupying_piece.color == self.turn:
 				self.selected_piece = clicked_tile.occupying_piece
 
@@ -75,7 +76,7 @@ class Board:
 			if not self.is_jump:
 				for tile in self.selected_piece.valid_moves():
 					tile.highlight = True
-			elif self.is_jump:
+			else:
 				for tile in self.selected_piece.valid_jumps():
 					tile.highlight = True
 
