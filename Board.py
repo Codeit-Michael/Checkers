@@ -23,10 +23,10 @@ class Board:
 			['rp', '', 'rp', '', 'rp', '', 'rp', '']
 		]
 
-		self. tile_list = self.generate_tiles()
-		self.setup()
+		self.tile_list = self._generate_tiles()
+		self._setup()
 
-	def generate_tiles(self):
+	def _generate_tiles(self):
 		output = []
 		for y in range(self.board_size):
 			for x in range(self.board_size):
@@ -40,7 +40,7 @@ class Board:
 			if (tile.x, tile.y) == (pos[0], pos[1]):
 				return tile
 
-	def setup(self):
+	def _setup(self):
 		for y_ind, row in enumerate(self.config):
 			for x_ind, x in enumerate(row):
 				tile = self.get_tile_from_pos((x_ind, y_ind))
@@ -78,7 +78,7 @@ class Board:
 					tile.highlight = True
 			else:
 				for tile in self.selected_piece.valid_jumps():
-					tile.highlight = True
+					tile[0].highlight = True
 
 		for tile in self.tile_list:
 			tile.draw(display)

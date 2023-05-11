@@ -40,14 +40,5 @@ class Game:
 			board.handle_click(piece.pos)
 		return board.is_jump
 
-	def force_jump(self):
-		pass
-		"""
-		board.is_jump = True
-		"""
-
 	def message(self):
 		print(self.winner)
-		"""
-		requirements:
-		"""
