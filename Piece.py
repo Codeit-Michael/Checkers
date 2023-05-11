@@ -28,8 +28,8 @@ class Piece:
 					tile.occupying_piece = King(
 						self.x, self.y, self.color, self.board
 					)
-
 			return True
+
 		elif self.board.is_jump:
 			for move in self.valid_jumps():
 				if tile in move:
@@ -50,7 +50,6 @@ class Piece:
 							tile.occupying_piece = King(
 								self.x, self.y, self.color, self.board
 							)
-
 					return True
 		else:
 			self.board.selected_piece = None

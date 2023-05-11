@@ -10,10 +10,38 @@ class King(Piece):
 		self.notation = 'k'
 
 	def possible_moves(self):
-		pass
+		possible_moves = ((-1, -1), (+1, -1), (-1, +1), (+1, +1))
+		return possible_moves
 
 	def valid_moves(self):
-		pass
+		tile_moves = []
+		moves = self.possible_moves()
+		for move in moves:
+			tile_pos = (self.x + move[0], self.y + move[-1])
+			if tile_pos[0] < 0 or tile_pos[0] > 7 or tile_pos[-1] < 0 or tile_pos[-1] > 7:
+				pass
+			else:
+				tile = self.board.get_tile_from_pos(tile_pos)
+				if tile.occupying_piece == None:
+					tile_moves.append(tile)
+		return tile_moves
 
 	def valid_jumps(self):
-		pass
+		tile_jumps = []
+		moves = self.possible_moves()
+		for move in moves:
+			tile_pos = (self.x + move[0], self.y + move[-1])
+			if tile_pos[0] < 0 or tile_pos[0] > 7 or tile_pos[-1] < 0 or tile_pos[-1] > 7:
+				pass
+			else:
+				tile = self.board.get_tile_from_pos(tile_pos)
+				if self.board.turn == self.color:
+					if tile.occupying_piece != None and tile.occupying_piece.color != self.color:
+						next_pos = (tile_pos[0] + move[0], tile_pos[-1] + move[-1])
+						next_tile = self.board.get_tile_from_pos(next_pos)		
+						if next_pos[0] < 0 or next_pos[0] > 7 or next_pos[-1] < 0 or next_pos[-1] > 7:
+							pass
+						else:
+							if next_tile.occupying_piece == None:
+								tile_jumps.append((next_tile, tile))
+		return tile_jumps
