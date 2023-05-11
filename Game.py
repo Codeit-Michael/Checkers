@@ -41,4 +41,4 @@ class Game:
 		return board.is_jump
 
 	def message(self):
-		print(self.winner)
+		print(f"{self.winner} Wins!!")

@@ -9,13 +9,13 @@ class King(Piece):
 		self.img = pygame.transform.scale(self.img, (board.tile_width, board.tile_height))
 		self.notation = 'k'
 
-	def possible_moves(self):
+	def _possible_moves(self):
 		possible_moves = ((-1, -1), (+1, -1), (-1, +1), (+1, +1))
 		return possible_moves
 
 	def valid_moves(self):
 		tile_moves = []
-		moves = self.possible_moves()
+		moves = self._possible_moves()
 		for move in moves:
 			tile_pos = (self.x + move[0], self.y + move[-1])
 			if tile_pos[0] < 0 or tile_pos[0] > 7 or tile_pos[-1] < 0 or tile_pos[-1] > 7:
@@ -28,7 +28,7 @@ class King(Piece):
 
 	def valid_jumps(self):
 		tile_jumps = []
-		moves = self.possible_moves()
+		moves = self._possible_moves()
 		for move in moves:
 			tile_pos = (self.x + move[0], self.y + move[-1])
 			if tile_pos[0] < 0 or tile_pos[0] > 7 or tile_pos[-1] < 0 or tile_pos[-1] > 7:

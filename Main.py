@@ -10,7 +10,7 @@ class Checkers:
 		self.running = True
 		self.FPS = pygame.time.Clock()
 
-	def draw(self, board):
+	def _draw(self, board):
 		board.draw(self.screen)
 		pygame.display.update()
 
@@ -31,8 +31,9 @@ class Checkers:
 						board.handle_click(self.event.pos)
 				else:
 					game.message()
+					self.running = False
 
-			self.draw(board)
+			self._draw(board)
 			self.FPS.tick(60)
 
 
